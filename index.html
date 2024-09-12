@@ -55,7 +55,10 @@
                 stompClient.subscribe("/topic/rideRequest", function(data){
                     const response = confirm(`You have a new ride request from passenger : ${JSON.parse(data.body).passengerId}. Do you accept it?`);
                     console.log(response);
-                    stompClient.send("/app/rideResponse", {}, JSON.stringify({response}));
+                    if(response == true){
+                        const id = prompt("Please enter your driverId");
+                        stompClient.send(`/app/rideResponse/${id}`,{}, JSON.stringify({response}));
+                    }
                 })
             
 
